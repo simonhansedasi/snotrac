@@ -1,0 +1,24 @@
+name: snotrac-gaps
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - geopandas
+  - pandana
+  - osmnx
+  - pandas
+  - numpy
+  - matplotlib
+  - contextily
+  - cenpy
+  - pyarrow
+  - jupyter
+  - ipykernel
+  - scikit-learn
+  - hdbscan
+  - pip
+  - pip:
+    - gtfs-kit
+    - mapclassify
+    - python-dotenv
