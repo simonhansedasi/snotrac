@@ -6,3 +6,5 @@ data/outputs/
 __pycache__/
 .ipynb_checkpoints/
 *.egg-info/
+data/raw/osm/*.graphml
+notebooks/data/raw/osm/*.graphml

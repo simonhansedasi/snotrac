@@ -29,20 +29,25 @@ def load_feed(gtfs_dir: str | Path = GTFS_PATH) -> gk.Feed:
 def _select_representative_service(feed: gk.Feed) -> str:
     """Return the service_id that covers the most Mon-Fri trips."""
     cal = feed.calendar
-    if cal is None or cal.empty:
-        # Fall back to calendar_dates
-        raise ValueError(
-            "No calendar.txt found in feed; manual service_id selection required."
+    if cal is not None and not cal.empty:
+        weekday_mask = (
+            (cal["monday"] == 1)
+            | (cal["tuesday"] == 1)
+            | (cal["wednesday"] == 1)
+            | (cal["thursday"] == 1)
+            | (cal["friday"] == 1)
         )
-    weekday_mask = (
-        (cal["monday"] == 1)
-        | (cal["tuesday"] == 1)
-        | (cal["wednesday"] == 1)
-        | (cal["thursday"] == 1)
-        | (cal["friday"] == 1)
-    )
-    weekday_services = cal.loc[weekday_mask, "service_id"].tolist()
-    # Count trips per service_id
+        weekday_services = cal.loc[weekday_mask, "service_id"].tolist()
+    else:
+        # Agencies that use calendar_dates.txt only (e.g. King County Metro)
+        # exception_type=1 means service added; pick weekday dates (DOW 0-4)
+        cal_dates = feed.calendar_dates
+        if cal_dates is None or cal_dates.empty:
+            raise ValueError("Feed has neither calendar.txt nor calendar_dates.txt.")
+        cal_dates = cal_dates[cal_dates["exception_type"] == 1].copy()
+        cal_dates["dow"] = pd.to_datetime(cal_dates["date"], format="%Y%m%d").dt.dayofweek
+        weekday_services = cal_dates[cal_dates["dow"] < 5]["service_id"].unique().tolist()
+
     trips = feed.trips[feed.trips["service_id"].isin(weekday_services)]
     counts = trips["service_id"].value_counts()
     return counts.index[0]
