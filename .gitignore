@@ -49,3 +49,6 @@ web/*/data.geojson
 
 # Private outreach
 outreach_*.md
+
+# Deploy scripts (server addresses), stay local, still sync via rsync
+deploy_*.sh
