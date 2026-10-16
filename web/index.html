@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WA Transit Gap Analysis</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #1a1d21;
+      color: #e8eaed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container { max-width: 560px; width: 100%; }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #6a7a8e;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .county-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .county-card {
+      display: block;
+      background: #22262c;
+      border: 1px solid #2e3440;
+      border-radius: 10px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .county-card:hover {
+      border-color: #4a5568;
+      background: #272b32;
+    }
+
+    .county-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .county-state {
+      font-size: 11px;
+      color: #5a6a7e;
+      margin-bottom: 14px;
+    }
+
+    .county-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .county-stat {
+      font-size: 11px;
+      color: #6a7a8e;
+    }
+
+    .county-stat span {
+      color: #c8d4e0;
+      font-weight: 600;
+    }
+
+    .county-card .arrow {
+      display: block;
+      text-align: right;
+      font-size: 16px;
+      color: #3a4a5a;
+      margin-top: 14px;
+      transition: color 0.15s;
+    }
+
+    .county-card:hover .arrow { color: #8a9bb0; }
+
+    .methodology {
+      font-size: 11px;
+      color: #3a4a5a;
+      line-height: 1.7;
+      border-top: 1px solid #2e3440;
+      padding-top: 20px;
+    }
+
+    .methodology a { color: #4a7a9b; text-decoration: none; }
+    .methodology a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>WA Transit Gap Analysis</h1>
+  <p class="subtitle">Frequency-weighted transit accessibility mapped against population vulnerability at the block group level. Identifies communities where transit need and service most diverge.</p>
+
+  <div class="county-grid">
+    <a href="snohomish/" class="county-card">
+      <div class="county-name">Snohomish County</div>
+      <div class="county-state">Washington State</div>
+      <div class="county-stats">
+        <div class="county-stat"><span>575</span> block groups</div>
+        <div class="county-stat"><span>Community Transit</span> GTFS</div>
+        <div class="county-stat">Top priority: <span>Everett, Stanwood, Darrington</span></div>
+      </div>
+      <span class="arrow">&#x2192;</span>
+    </a>
+
+    <a href="king/" class="county-card">
+      <div class="county-name">King County</div>
+      <div class="county-state">Washington State</div>
+      <div class="county-stats">
+        <div class="county-stat"><span>1,545</span> block groups</div>
+        <div class="county-stat"><span>King County Metro</span> GTFS</div>
+        <div class="county-stat">Top priority: <span>Auburn, Kent, Federal Way</span></div>
+      </div>
+      <span class="arrow">&#x2192;</span>
+    </a>
+  </div>
+
+  <div class="methodology">
+    Gravity model: A<sub>i</sub> = &Sigma; F<sub>j</sub> &middot; e<sup>&minus;&beta;d<sub>ij</sub></sup>, &beta;=4.0 &middot;
+    Gap = vulnerability &times; (1 &minus; log-normalized accessibility) &middot;
+    Data: ACS 2023 5-year, OpenStreetMap &middot;
+    By <a href="https://simonhansedasi.com">Simon Hans Edasi</a>, 2026
+  </div>
+</div>
+</body>
+</html>
